@@ -1,4 +1,4 @@
-import gentoken from "../utils/token"
+import gentoken from "../utils/token.js"
 
  export const signupUp=async (req,res)=>{
     try {
