@@ -3,6 +3,8 @@ import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import { serverUrl } from "../App";
+import axios from "axios"
 
 const SignUp = () => {
   const primaryColor = "#ff4d2d";
@@ -14,6 +16,21 @@ const SignUp = () => {
   const [role, setRole] = useState("user");
 
   const navigate = useNavigate();
+  const[ fullName,setFullName]=useState("")
+  const[ email,setEmail]=useState("")
+  const[ password,setPassword]=useState("")
+  const[ mobile,setMobile]=useState("")
+
+const handelSignUp=async ()=>{
+  try {
+    const result=await axios.post(`${ serverUrl}/api/auth/signup`,{
+      fullName,email,password,mobile,role
+    },{withCredentials:true})
+    console.log(result)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
   return (
     <div
@@ -52,6 +69,8 @@ const SignUp = () => {
             className="w-full rounded-lg px-3 py-2 focus:outline-none focus:border-orange-500"
             placeholder="Enter your Name"
             style={{ border: `1px solid ${borderColor}` }}
+            onChange={(e)=>setFullName(e.target.value)}
+            value={fullName}
           />
         </div>
 
@@ -70,6 +89,8 @@ const SignUp = () => {
             className="w-full rounded-lg px-3 py-2 focus:outline-none focus:border-orange-500"
             placeholder="Enter your email"
             style={{ border: `1px solid ${borderColor}` }}
+            onChange={(e)=>setEmail(e.target.value)}
+            value={email}
           />
         </div>
 
@@ -88,6 +109,8 @@ const SignUp = () => {
             className="w-full rounded-lg px-3 py-2 focus:outline-none focus:border-orange-500"
             placeholder="Enter your mobile number"
             style={{ border: `1px solid ${borderColor}` }}
+            onChange={(e)=>setMobile(e.target.value)}
+            value={mobile}
           />
         </div>
 
@@ -107,6 +130,8 @@ const SignUp = () => {
               className="w-full rounded-lg px-3 py-2 pr-10 focus:outline-none focus:border-orange-500"
               placeholder="Enter your password"
               style={{ border: `1px solid ${borderColor}` }}
+              onChange={(e)=>setPassword(e.target.value)}
+            value={password}
             />
 
             <button
@@ -165,7 +190,7 @@ const SignUp = () => {
           }
           onMouseLeave={(e) =>
             (e.target.style.backgroundColor = primaryColor)
-          }
+          } onClick={handelSignUp}
         >
           Sign Up
         </button>

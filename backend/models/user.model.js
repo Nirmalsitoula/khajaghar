@@ -1,3 +1,6 @@
+import mongoose from "mongoose";
+
+
 const userSchema=new mongoose.Schema({
     fullName:{
         type : String,
@@ -18,7 +21,7 @@ const userSchema=new mongoose.Schema({
     },
     role:{
         type:String,
-        enum:["user" , "owner" , "deleveryBoy"],
+        enum:["user" , "owner" , "deliveryBoy"],
         required:true
     }
 },{timestamps:true})
