@@ -108,8 +108,8 @@ const SignIn = () => {
             </button>
           </div>
         </div>
-        <div className='text-right mb-4 text-[#ff4d2d]'onClick={()=>
-        navigate("forgot-password")}>
+        <div className='text-right mb-4 cursor-pointer text-[#ff4d2d]'onClick={()=>
+        navigate("/forgot-password")}>
           Forgot Password
         </div>
 
