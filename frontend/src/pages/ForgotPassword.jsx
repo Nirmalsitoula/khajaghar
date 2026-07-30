@@ -13,6 +13,7 @@ const ForgotPassword = () => {
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const[ err,setErr]=useState("")
 
   const [loading, setLoading] = useState(false);
 
@@ -32,17 +33,20 @@ const ForgotPassword = () => {
       );
 
       console.log(result.data);
+      setErr("")
 
       alert(result.data.message || "OTP sent successfully.");
 
       setStep(2);
     } catch (error) {
-      console.log(error);
+      const backendMsg =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.response?.data?.msg;
 
-      alert(
-        error.response?.data?.message ||
-          "Something went wrong while sending OTP."
-      );
+      setErr(backendMsg || "Something went wrong while sending OTP.")
+
+      alert(backendMsg || "Something went wrong while sending OTP.");
     } finally {
       setLoading(false);
     }
@@ -64,17 +68,20 @@ const ForgotPassword = () => {
       );
 
       console.log(result.data);
+      setErr("")
 
       alert(result.data.message || "OTP verified.");
 
       setStep(3);
     } catch (error) {
-      console.log(error);
+      const backendMsg =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.response?.data?.msg;
 
-      alert(
-        error.response?.data?.message ||
-          "Invalid OTP."
-      );
+      setErr(backendMsg || "Invalid OTP.")
+
+      alert(backendMsg || "Invalid OTP.");
     } finally {
       setLoading(false);
     }
@@ -103,19 +110,21 @@ const ForgotPassword = () => {
           withCredentials: true,
         }
       );
-
+     setErr("")
       console.log(result.data);
 
       alert(result.data.message || "Password reset successful.");
 
       navigate("/signin");
     } catch (error) {
-      console.log(error);
+      const backendMsg =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.response?.data?.msg;
 
-      alert(
-        error.response?.data?.message ||
-          "Failed to reset password."
-      );
+      setErr(backendMsg || "Failed to reset password.")
+
+      alert(backendMsg || "Failed to reset password.");
     } finally {
       setLoading(false);
     }
@@ -158,6 +167,7 @@ const ForgotPassword = () => {
             >
               {loading ? "Sending..." : "Send OTP"}
             </button>
+        {err && <p className="text-red-500 text-center my-[10px]">*{err}</p> }
           </>
         )}
 
@@ -172,7 +182,7 @@ const ForgotPassword = () => {
               className="w-full border rounded-lg px-3 py-2 mb-4 outline-none focus:border-orange-500"
               placeholder="Enter OTP"
               value={otp}
-              onChange={(e) => setOtp(e.target.value)}
+              onChange={(e) => setOtp(e.target.value)}  required
             />
 
             <button
@@ -182,6 +192,7 @@ const ForgotPassword = () => {
             >
               {loading ? "Verifying..." : "Verify OTP"}
             </button>
+            {err && <p className="text-red-500 text-center my-[10px]">*{err}</p> }
           </>
         )}
 
@@ -196,7 +207,7 @@ const ForgotPassword = () => {
               className="w-full border rounded-lg px-3 py-2 mb-4 outline-none focus:border-orange-500"
               placeholder="Enter new password"
               value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
+              onChange={(e) => setNewPassword(e.target.value)}  required
             />
 
             <label className="block mb-2 font-medium">
@@ -208,7 +219,7 @@ const ForgotPassword = () => {
               className="w-full border rounded-lg px-3 py-2 mb-4 outline-none focus:border-orange-500"
               placeholder="Confirm password"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => setConfirmPassword(e.target.value)} required
             />
 
             <button
@@ -218,6 +229,7 @@ const ForgotPassword = () => {
             >
               {loading ? "Resetting..." : "Reset Password"}
             </button>
+           {err && <p className="text-red-500 text-center my-[10px]">*{err}</p> }
           </>
         )}
       </div>
