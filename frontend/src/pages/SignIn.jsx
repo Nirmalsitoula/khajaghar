@@ -8,6 +8,8 @@ import axios from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase";
 import { ClipLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../redux/user.Slice";
 
 const SignIn = () => {
   const primaryColor = "#ff4d2d";
@@ -22,6 +24,7 @@ const SignIn = () => {
 
   const navigate = useNavigate();
   const[loading,setLoading]=useState(false)
+  const dispatch=useDispatch()
 
   const handelSignIn = async () => {
     try {
@@ -37,7 +40,7 @@ const SignIn = () => {
         }
       );
 
-      console.log(result);
+      dispatch(setUserData(result.data))
       setErr("")
       setLoading(false)
     } catch (error) {
@@ -59,7 +62,7 @@ const SignIn = () => {
         email:result.user.email,
      
       },{withCredentials:true})
-      console.log(data)
+         dispatch(setUserData(data))
     } catch (error) {
       console.log(error)
     }
